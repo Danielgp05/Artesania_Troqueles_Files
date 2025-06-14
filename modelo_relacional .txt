@@ -1,0 +1,96 @@
+CLIENTE(cliente_id, nombre, dirección, teléfono, email)
+
+    PK {cliente_id}
+
+    NN {nombre, dirección, teléfono, email}
+
+    UNI {email}
+
+TROQUEL(troquel_id, num_troquel, desarrollo_total, formato, descripción, medida_caja_montada, cliente_id, imagen)
+
+    PK {troquel_id}
+
+    NN {num_troquel, desarrollo_total, formato, descripción, medida_caja_montada, imagen}
+
+    FK {cliente_id} REFERENCES CLIENTE(cliente_id)
+
+POSES(poses_id, material, medida_alto, medida_ancho, troquel_id, imagen)
+
+    PK {poses_id}
+
+    NN {material, medida_alto, medida_ancho, imagen}
+
+    FK {troquel_id} REFERENCES TROQUEL(troquel_id)
+
+USUARIO(user_id, usuario, contraseña, fecha_creacion)
+
+    PK {user_id}
+
+    NN {usuario, contraseña}
+
+    UNI {usuario}
+
+ROL(rol_id, nombre_rol, descripción)
+
+    PK {rol_id}
+
+    NN {nombre_rol, descripción}
+
+    UNI {nombre_rol}
+
+USUARIO_ROL(user_id, rol_id)
+
+    PK {user_id, rol_id}
+
+    FK {user_id} REFERENCES USUARIO(user_id)
+
+    FK {rol_id} REFERENCES ROL(rol_id)
+
+TRABAJADOR(trabajador_id, nombre)
+
+    PK{trabajador_id}
+    
+    NN {nombre}
+
+FASES(fases_id, nombre_fase)
+
+    PK {fases_id}
+
+    NN {nombre_fase}
+
+PEDIDO(pedido_id, num_pedido, fecha_creacion, fecha_entrega, cliente_id, materiales, cantidad, descripción, documento_pdf, notas, finalizado, fase_id, trabajador_id)
+
+    PK {pedido_id}
+
+    NN {num_pedido, fecha_creacion, fecha_entrega, cantidad, descripción, finalizado, fase_id, trabajador_id}
+
+    UNI {num_pedido}
+
+    FK {cliente_id} REFERENCES CLIENTE(cliente_id)
+
+    FK {fase_id} REFERENCES FASES(fases_id)
+
+    FK {trabajador_id} REFERENCES TRABAJADOR(trabajador_id)
+
+PEDIDO_TROQUEL(pedido_id, troquel_id)
+
+    PK {pedido_id, troquel_id}
+
+    FK {pedido_id} REFERENCES PEDIDO(pedido_id)
+
+    FK {troquel_id} REFERENCES TROQUEL(troquel_id)
+
+TINTAS(tintas_id, nombre, hexadecimal, cantidad)
+
+    PK {tintas_id}
+
+    NN {nombre, hexadecimal, cantidad}
+
+PEDIDO_TINTAS(pedido_id, tintas_id)
+
+    PK {pedido_id, tintas_id}
+
+    FK {pedido_id} REFERENCES PEDIDO(pedido_id)
+
+    FK {tintas_id} REFERENCES TINTAS(tintas_id)
+
